@@ -38,12 +38,13 @@ EyesOnYou, sınıf ortamındaki öğrencileri gerçek zamanlı tespit eden, her 
 
 ## Kurulum ve Çalıştırma Adımları
 
-1. **Python ortamını hazırlayın:** Python 3.10+ sürümü yüklü olmalıdır. İzole bir sanal ortam oluşturmak için python -m venv .venv komutunu kullanabilirsiniz.
-2. **Sanal ortamı etkinleştirin:** Windows PowerShell için ./.venv/Scripts/Activate.ps1, Unix tabanlı sistemler için source .venv/bin/activate.
-3. **Bağımlılıkları yükleyin:** pip install --upgrade pip ardından pip install -r requirements.txt.
-4. **Test videosunu yerleştirin:** data/videos/ klasörüne sinif_videosu.mp4 adında bir örnek video kopyalayın.
-5. **Uygulamayı çalıştırın:** python src/main.py --kaynak data/videos/sinif_videosu.mp4 komutu, betiğin sağladığı kaynak argümanını kullanarak prototipi başlatır. Kamera veya RTSP akışı kullanmak için aynı argümana ilgili URI verilebilir.
-6. **Sonuçları izleyin:** Betik, gerçek zamanlı kareleri ve kimlik etiketlerini pencere üzerinde gösterir; terminalde ise aktif kimlik sayısı raporlanır.
+1. **Projeyi klonlayın ve dosya dizinine gidin:** Terminali aç ve git clone https://github.com/Emirhan55-AI/internship-deephist-project1.git yazın. Klonlama bitince cd .\EyesOnYou\ yazarak ana dizine gidin.
+2. **Python ortamını hazırlayın:** Python 3.11 sürümü yüklü olmalıdır. İzole bir sanal ortam oluşturmak için py -3.11 -m venv .venv komutunu kullanabilirsiniz.
+3. **Sanal ortamı etkinleştirin:** Windows PowerShell için ./.venv/Scripts/Activate.ps1, Unix tabanlı sistemler için source .venv/bin/activate.
+4. **Bağımlılıkları yükleyin:** python -m pip install --upgrade pip setuptools wheel,  ardından pip install -r requirements.txt.
+5. **Test videosunu yerleştirin:** data/videos/ klasörüne sinif_videosu.mp4 adında bir örnek video kopyalayın.
+6. **Uygulamayı çalıştırın:** python src/main.py --kaynak data/videos/sinif_videosu.mp4 komutu, betiğin sağladığı kaynak argümanını kullanarak prototipi başlatır. Kamera veya RTSP akışı kullanmak için aynı argümana ilgili URI verilebilir.
+7. **Sonuçları izleyin:** Betik, gerçek zamanlı kareleri ve kimlik etiketlerini pencere üzerinde gösterir; terminalde ise aktif kimlik sayısı raporlanır.
 
 ## Gelecek Geliştirmeler 
 
