@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-"""EyesOnYou ana uygulaması"""
 
 import argparse
 import time
@@ -10,30 +9,10 @@ from typing import Iterable, Optional, Tuple, Union
 import cv2
 import numpy as np
 import torch
-
-try:
-    import supervision as sv
-except ImportError as exc:  # pragma: no cover - modül eksikliği bilgi amaçlı
-    raise ImportError(
-        "supervision kütüphanesi bulunamadı. `pip install supervision[video]` komutuyla kurulum yap."
-    ) from exc
-
-try:
-    from boxmot import StrongSort
-except ImportError as exc:  # pragma: no cover
-    raise ImportError(
-        "BoxMOT (StrongSort) kurulmamış. `pip install boxmot` komutunu çalıştırıp README notlarını takip et."
-    ) from exc
-
-try:
-    from ultralytics import YOLO
-except ImportError as exc:  # pragma: no cover
-    raise ImportError(
-        "Ultralytics paketi yüklenmemiş. README'deki kurulum adımlarını uygula."
-    ) from exc
-
+import supervision as sv
+from boxmot import StrongSort
+from ultralytics import YOLO
 from config import RuntimeConfig, default_runtime_config
-
 
 class IdentityCounter:
     """Kimlikleri kısa süreli bellekle takip ederek sayaç değerinin kararlı kalmasını sağlar."""
@@ -116,18 +95,20 @@ def build_tracker(config: RuntimeConfig) -> StrongSort:
     weights_dir.mkdir(parents=True, exist_ok=True)
     weights_path = config.tracker.reid_model_path or weights_dir / "osnet_x0_25_msmt17.pt"
 
+    try:
+        tracker_device = torch.device(config.detector.device)
+    except (TypeError, RuntimeError):
+        print(f'[Uyarı] StrongSort {config.detector.device} cihazına taşınamadı. CPU kullanılacak.')
+        tracker_device = torch.device('cpu')
+
     return StrongSort(
         reid_weights=weights_path,
-        device=config.detector.device,
+        device=tracker_device,
         half=config.tracker.half,
-        det_thresh=config.detector.conf_threshold,
-        max_age=config.tracker.max_age,
-        max_obs=max(config.tracker.max_observations, config.tracker.max_age + 5),
-        min_hits=config.tracker.min_hits,
-        iou_threshold=config.tracker.max_iou_distance,
         min_conf=config.tracker.min_confidence,
         max_cos_dist=config.tracker.max_distance,
         max_iou_dist=config.tracker.max_iou_distance,
+        max_age=config.tracker.max_age,
         n_init=config.tracker.n_init,
         nn_budget=config.tracker.nn_budget,
         mc_lambda=config.tracker.mc_lambda,
