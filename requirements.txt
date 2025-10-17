@@ -1,0 +1,7 @@
+ultralytics>=8.0.0          # YOLO11 implementation
+opencv-python>=4.8.0        # Computer vision and video processing
+numpy>=1.24.0               # Numerical computing
+torch>=2.0.0                # PyTorch for deep learning
+torchvision>=0.15.0         # Computer vision utilities for PyTorch
+PyYAML>=6.0                 # YAML configuration file parsing
+boxmot>=10.0.0,<15.0.0      # BoT-SORT and other tracking algorithms (version constraint for Python compatibility)
