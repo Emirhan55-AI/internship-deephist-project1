@@ -1,15 +1,16 @@
 # Video Settings
 video:
-  input_source: "data/input/classroom_4.mp4"  # 0 for webcam, path for file, URL for stream
+  input_source: "data/input/classroom_1.mp4"
+  frame_rate: null 
   output:
-    enabled: true  # Enable video recording with tracking annotations
-    path: "data/output/tracked_output.mp4"  # Output video path
-    codec: "mp4v"  # Video codec (use XVID or MJPG if mp4v doesn't work)
-    fps: null  # null to match input FPS
+    enabled: true
+    path: "data/output/tracked_output.mp4"
+    codec: "mp4v"
+    fps: null
 
 # Display Settings
 display:
-  enabled: false
+  enabled: true
   window_name: "Eyes on You - Student Tracking"
   fps_limit: 30
   resize:
@@ -21,29 +22,26 @@ display:
 # YOLO Model Settings
 model:
   path: "models/yolo11s.pt"
-  device: "cpu"  # "cpu" or "cuda:0"
-  confidence_threshold: 0.3
-  iou_threshold: 0.3
-  classes: [0]  # 0 for person class
+  device: "cuda:0"  
+  confidence_threshold: 0.40  
+  iou_threshold: 0.50 
+  classes: [0] 
 
-# Tracking Settings (BoT-SORT)
+# BoT-SORT Tracking Settings
 tracking:
-  algorithm: "botsort"  # "botsort" or "bytetrack"
-  track_high_thresh: 0.4
-  track_low_thresh: 0.1
-  new_track_thresh: 0.4
-  track_buffer: 200
-  match_thresh: 0.3
-  proximity_thresh: 0.5
-  appearance_thresh: 0.35
-  cmc_method: "ecc"  # "ecc" or "sparse"
-  history_length: 50
-  trajectory_length: 50
+  track_high_thresh: 0.467  
+  track_low_thresh: 0.159   
+  new_track_thresh: 0.716   
+  track_buffer: 90          
+  match_thresh: 0.85         
+  proximity_thresh: 0.50     
+  appearance_thresh: 0.55    
+  cmc_method: "ecc"          
   reid_weights_path: "models/osnet_x0_25_msmt17.pt"
 
 # Student Counting Settings
 counter:
-  confidence_threshold: 0.4
+  confidence_threshold: 0.5
   max_confirmed_students: 1000
 
 # Visualization Settings
@@ -57,9 +55,9 @@ visualization:
 
 # Performance Settings
 performance:
-  max_duration: null  # null for unlimited
+  max_duration: null
   verbose: true
-  frame_skip: 2  # Process every Nth frame (2 = skip 1 frame, 3 = skip 2 frames, etc.)
+  frame_skip: 1
 
 # Statistics Settings
 statistics:

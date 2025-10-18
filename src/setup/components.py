@@ -29,9 +29,15 @@ def setup_components(config: dict[str, Any], logger: logging.Logger) -> tuple[Fr
     
     # Initialize tracker
     tracking_cfg = config.get("tracking", {})
+    video_cfg = config.get("video", {})
     history_length = tracking_cfg.get(
         "history_length", tracking_cfg.get("trajectory_length", 50)
     )
+    
+    # Get frame_rate from video config or use default
+    frame_rate = video_cfg.get("frame_rate", 30)
+    if frame_rate is None:
+        frame_rate = 30  # Default fallback
     
     tracker = BotSortTracker(
         track_high_thresh=tracking_cfg.get("track_high_thresh", 0.6),
@@ -42,7 +48,7 @@ def setup_components(config: dict[str, Any], logger: logging.Logger) -> tuple[Fr
         proximity_thresh=tracking_cfg.get("proximity_thresh", 0.5),
         appearance_thresh=tracking_cfg.get("appearance_thresh", 0.25),
         cmc_method=tracking_cfg.get("cmc_method", "ecc"),
-        frame_rate=tracking_cfg.get("frame_rate", 30),
+        frame_rate=frame_rate,
         device=model_cfg.get("device", "cpu"),
         history_size=history_length,
         reid_weights_path=tracking_cfg.get("reid_weights_path"),
