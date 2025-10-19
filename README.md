@@ -102,13 +102,12 @@ YOLO-Based-Student-Detection-and-Tracking/
 
 ---
 
-## Demo Video
+## Demo
 
 Here's a sample output showing the tracking system in action:
 
-<video width="800" controls>
-  <source src="data/output/tracked_output.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Demo GIF](docs/demo.gif)
 
-*Sample output video demonstrating real-time student detection and tracking with bounding boxes, unique IDs, and trajectory visualization.*
+*Real-time student detection and tracking with bounding boxes, unique IDs, and trajectory visualization.*
+
+**Download full video:** [tracked_output.mp4](data/output/tracked_output.mp4)
