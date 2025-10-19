@@ -1,66 +1,71 @@
-# Video Settings
+# Eyes on You - Student Detection and Tracking Configuration File:
+# This configuration file controls all aspects of the student tracking system,
+# including video processing, detection, tracking, and visualization settings.
+
+
+# Video Settings: Configure input video source and output video parameters
 video:
-  input_source: "data/input/classroom_1.mp4"
-  frame_rate: null 
+  input_source: "data/input/classroom_1.mp4"  # Path to input video file
+  frame_rate: null  # Video speed (FPS). null = auto-detect.
   output:
-    enabled: true
-    path: "data/output/tracked_output.mp4"
-    codec: "mp4v"
-    fps: null
+    enabled: true  # Enable/disable video output
+    path: "data/output/tracked_output.mp4"  # Output video file path
+    codec: "mp4v"  # Video codec for output
+    fps: null  # Output FPS (null = match input)
 
-# Display Settings
+# Display Settings: Control the real-time display window and its properties
 display:
-  enabled: true
-  window_name: "Eyes on You - Student Tracking"
-  fps_limit: 30
+  enabled: true  # Show/hide display window
+  window_name: "Eyes on You - Student Tracking"  # Window title
+  fps_limit: 30  # Maximum display FPS (for smooth playback)
   resize:
-    enabled: true
-    width: 1280
-    height: 720
-    maintain_aspect_ratio: true
+    enabled: true  # Enable window resizing
+    width: 1280  # Display width in pixels
+    height: 720  # Display height in pixels
+    maintain_aspect_ratio: true  # Keep original video aspect ratio
 
-# YOLO Model Settings
+# YOLO Model Settings: Configure the YOLO object detection model parameters
 model:
-  path: "models/yolo11s.pt"
-  device: "cuda:0"  
-  confidence_threshold: 0.40  
-  iou_threshold: 0.50 
-  classes: [0] 
+  path: "models/yolo11s.pt"  # Path to YOLO model weights
+  device: "cpu"  # Processing device: "cpu" or "cuda"
+  confidence_threshold: 0.40  # Minimum confidence for detection (0-1)
+  iou_threshold: 0.50  # IoU threshold for NMS (0-1)
+  classes: [0]  # COCO class IDs to detect (0=person)
 
-# BoT-SORT Tracking Settings
+# BoT-SORT Tracking Settings: Configure the BoT-SORT multi-object tracking algorithm
 tracking:
-  track_high_thresh: 0.467  
-  track_low_thresh: 0.159   
-  new_track_thresh: 0.716   
-  track_buffer: 90          
-  match_thresh: 0.85         
-  proximity_thresh: 0.50     
-  appearance_thresh: 0.55    
-  cmc_method: "ecc"          
-  reid_weights_path: "models/osnet_x0_25_msmt17.pt"
+  track_high_thresh: 0.467  # High confidence threshold for track confirmation
+  track_low_thresh: 0.159  # Low confidence threshold for track deletion
+  new_track_thresh: 0.716  # Threshold for creating new tracks
+  track_buffer: 120  # Number of frames to keep lost tracks
+  match_thresh: 0.90  # Threshold for track matching (0-1)
+  proximity_thresh: 0.50  # Proximity threshold for track association
+  appearance_thresh: 0.70  # Appearance similarity threshold (0-1)
+  cmc_method: "ecc"  # Camera motion compensation method: "ecc" or "sparse"
+  reid_weights_path: "models/osnet_x0_25_msmt17.pt"  # ReID model for appearance matching
 
-# Student Counting Settings
+# Student Counting Settings: Configure student counting and tracking statistics
 counter:
-  confidence_threshold: 0.5
-  max_confirmed_students: 1000
+  confidence_threshold: 0.5  # Minimum confidence to count as a student
+  max_confirmed_students: 1000  # Maximum number of students to track
 
-# Visualization Settings
+# Visualization Settings: Control how tracking results are displayed on the video
 visualization:
-  show_confidence: true
-  show_track_id: true
-  show_trajectory: true
-  box_thickness: 2
-  font_scale: 0.6
-  font_thickness: 2
+  show_confidence: true  # Display detection confidence scores
+  show_track_id: true  # Display unique track IDs
+  show_trajectory: true  # Show movement trails
+  box_thickness: 2  # Bounding box line thickness
+  font_scale: 0.6  # Text size multiplier
+  font_thickness: 2  # Text line thickness
 
-# Performance Settings
+# Performance Settings: Control processing performance and resource usage
 performance:
-  max_duration: null
-  verbose: true
-  frame_skip: 1
+  max_duration: null  # Maximum processing time in seconds (null = no limit)
+  verbose: true  # Enable detailed console output
+  frame_skip: 1  # Process every Nth frame (1 = all frames)
 
-# Statistics Settings
+# Statistics Settings: Configure progress reporting and final statistics display
 statistics:
-  show_progress: true
-  show_final_stats: true
-  progress_format: "Progress: {progress:.1f}% ({elapsed:.1f}s/{total:.1f}s) - FPS: {fps:.1f} - Students: {students}"
+  show_progress: true  # Show real-time progress updates
+  show_final_stats: true  # Display summary statistics at the end
+  progress_format: "Progress: {progress:.1f}% ({elapsed:.1f}s/{total:.1f}s) - FPS: {fps:.1f} - Students: {students}"  # Progress message template

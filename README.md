@@ -34,6 +34,9 @@ By default the application reads from `data/input/classroom_1.mp4`. Pass `--inpu
 
 All runtime options live in `config.yaml`. Key sections:
 
+> **For detailed parameter explanations and tuning tips, see [CONFIG_GUIDE.md](CONFIG_GUIDE.md)**
+> **For algorithm selection rationale and literature review, see [RESEARCH.md](RESEARCH.md)**
+
 - **`video`**: Input source (file, webcam, or URL) and output recording settings with codec selection
 - **`display`**: Window settings, FPS limiting, and frame resizing options
 - **`model`**: YOLO model path, device selection (CPU/GPU), confidence/IoU thresholds, and target classes
@@ -51,6 +54,7 @@ Every setting can be overridden via CLI flags such as `--input`, `--output`, `--
 YOLO-Based-Student-Detection-and-Tracking/
 ├── main.py                      # Application entry point
 ├── config.yaml                  # Centralized configuration file
+├── CONFIG_GUIDE.md              # Detailed configuration guide and parameter explanations
 ├── requirements.txt             # Python dependencies
 ├── README.md                    # Project documentation
 ├── RESEARCH.md                  # Literature review and algorithm selection
@@ -95,3 +99,16 @@ YOLO-Based-Student-Detection-and-Tracking/
 - **`app/`** - Frame processing pipeline and video playback controller
 - **`core/`** - Core algorithms: detection (YOLO), tracking (BoT-SORT), and counting
 - **`utils/`** - Video I/O and visualization utilities
+
+---
+
+## Demo Video
+
+Here's a sample output showing the tracking system in action:
+
+<video width="800" controls>
+  <source src="data/output/tracked_output.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+*Sample output video demonstrating real-time student detection and tracking with bounding boxes, unique IDs, and trajectory visualization.*

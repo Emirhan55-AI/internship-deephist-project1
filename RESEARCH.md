@@ -39,9 +39,79 @@ The findings obtained from this paper served as the main foundation for the mode
 
 ---
 
-## IMPORTANT: Algorithm Selection Update
+## 3. Re-Identification (ReID) Model Selection
 
-### Why We Switched from ByteTrack to BoT-SORT
+This section presents the literature review conducted to determine the ReID model for appearance-based feature extraction in multi-object tracking.
+
+### Reviewed Paper 1
+
+**Reference:** Zhou, Kaiyang, et al. "Omni-scale feature learning for person re-identification." *Proceedings of the IEEE/CVF international conference on computer vision*. 2019.
+
+**Content of the Paper:**
+This paper introduces OSNet (Omni-Scale Network), a lightweight deep learning architecture specifically designed for person re-identification. OSNet uses a unified aggregation gate to dynamically fuse multi-scale features, making it highly efficient for real-time applications while maintaining competitive accuracy [3].
+
+**Findings of the Paper:**
+The findings obtained from this paper formed the rationale for preferring OSNet within the scope of the current project. OSNet's architecture offers several key advantages for real-time tracking applications:
+
+- **Lightweight Architecture:** OSNet achieves state-of-the-art performance with significantly fewer parameters compared to traditional ReID models (ResNet-50, PCB)
+- **Omni-Scale Feature Learning:** The unified aggregation gate allows the model to capture features at multiple scales simultaneously, improving robustness to scale variations
+- **Real-Time Performance:** OSNet's efficiency makes it suitable for real-time tracking applications without compromising accuracy
+- **Generalization:** OSNet demonstrates strong generalization across different datasets and scenarios
+
+### Reviewed Paper 2
+
+**Reference:** Sun, Yifan, et al. "Beyond part models: Person retrieval with refined part pooling (and a strong convolutional baseline)." *Proceedings of the European conference on computer vision (ECCV)*. 2018.
+
+**Content of the Paper:**
+This paper introduces PCB (Part-based Convolutional Baseline), a part-based approach for person re-identification that divides the input image into horizontal parts and extracts features from each part separately [4].
+
+**Findings of the Paper and Model Selection:**
+While PCB achieves competitive accuracy, the study revealed several limitations for real-time tracking applications:
+
+- **Computational Overhead:** PCB requires processing multiple parts separately, increasing inference time
+- **Part Alignment:** The part-based approach requires additional preprocessing and alignment steps
+- **Memory Requirements:** Storing features for multiple parts increases memory consumption
+
+### Reviewed Paper 3
+
+**Reference:** He, Kaiming, et al. "Deep residual learning for image recognition." *Proceedings of the IEEE conference on computer vision and pattern recognition*. 2016.
+
+**Content of the Paper:**
+This paper introduces ResNet (Residual Network), a deep convolutional neural network architecture that uses residual connections to enable training of very deep networks [5].
+
+**Findings of the Paper:**
+ResNet-50, while widely used in ReID applications, presents several challenges for real-time tracking:
+
+- **Heavy Architecture:** ResNet-50 contains 25.6M parameters, making it computationally expensive
+- **Inference Time:** The deep architecture results in slower inference times, unsuitable for real-time applications
+- **Resource Requirements:** High memory and computational requirements limit deployment on edge devices
+
+### Selected Model: OSNet (Omni-Scale Network)
+
+> This model has been identified as the **most suitable model** for real-time person re-identification in multi-object tracking applications due to its lightweight architecture, competitive accuracy, and efficient inference time. OSNet provides the optimal balance between performance and computational efficiency required for real-time student tracking in classroom environments.
+
+**Key Advantages for Our Project:**
+- **Real-Time Performance:** OSNet achieves inference times suitable for 30 FPS processing
+- **Memory Efficiency:** Lower parameter count enables deployment on standard hardware
+- **Accuracy:** Competitive performance with heavier models (ResNet-50, PCB)
+- **Robustness:** Omni-scale features improve handling of scale variations and occlusions
+
+**Model Specifications:**
+- **Architecture:** OSNet (x0.25 variant for optimal speed-accuracy trade-off)
+- **Parameters:** ~0.68M (compared to 25.6M in ResNet-50)
+- **Input Size:** 256×128 pixels
+- **Feature Dimension:** 512
+- **Inference Time:** ~2-3ms per image (on CPU)
+
+---
+
+## 4. Multi-Object Tracking
+
+This section presents the literature review conducted to determine the methodology to be used for assigning persistent identities to detected students and tracking them.
+
+### IMPORTANT: Algorithm Selection Update
+
+#### Why We Switched from ByteTrack to BoT-SORT
 
 After the initial literature review, **ByteTrack** was selected as the tracking algorithm. However, during the implementation and testing phase, we switched to **BoT-SORT** (Boosting Online Tracking with SORT) based on empirical performance data and technical requirements. This section explains the rationale behind this decision.
 
@@ -107,18 +177,12 @@ The switch to BoT-SORT was made after:
 
 The switch from ByteTrack to BoT-SORT was driven by **empirical performance data** and **technical requirements** specific to classroom tracking. While ByteTrack remains an excellent choice for general-purpose tracking, BoT-SORT's superior identity consistency (IDF1), integrated ReID capabilities, and camera motion compensation make it the optimal choice for our use case.
 
----
-
-## 2. Multi-Object Tracking
-
-This section presents the literature review conducted to determine the methodology to be used for assigning persistent identities to detected students and tracking them.
-
 ### Reviewed Paper 1
 
 **Reference:** Luo, Wenhan, et al. "Multiple object tracking: A literature review." *Artificial Intelligence* 293 (2021): 103448.
 
 **Content of the Paper:**
-This paper provides a fundamental introduction to the MOT field by comprehensively explaining the problem (persistent ID assignment), main challenges (occlusion, similar appearances), system components (detection, feature extraction, data association), and main paradigms (**Online/Offline**, **TBD/JDT**).
+This paper provides a fundamental introduction to the MOT field by comprehensively explaining the problem (persistent ID assignment), main challenges (occlusion, similar appearances), system components (detection, feature extraction, data association), and main paradigms (**Online/Offline**, **TBD/JDT**) [6].
 
 **Findings of the Paper:**
 The conceptual framework provided by this paper perfectly aligns with the requirements of the project.
@@ -131,11 +195,11 @@ The conceptual framework provided by this paper perfectly aligns with the requir
 **Reference:** Adžemović, Momir. "Deep Learning-Based Multi-Object Tracking: A Comprehensive Survey from Foundations to State-of-the-Art." *arXiv preprint arXiv:2506.13457* (2025).
 
 **Content of the Paper:**
-This highly up-to-date paper addresses the MOT field purely from a Deep Learning perspective. It thoroughly examines the evolution of the TBD paradigm (SORT -> DeepSORT -> Transformer-based) and the modern types of the JDT paradigms (Embedding-based -> Query-based). It especially emphasizes the importance of new evaluation metrics such as **HOTA**, and the accuracy of Transformer-based end-to-end trackers (e.g., TrackFormer). It compares the state-of-the-art (SOTA) methods in terms of speed and accuracy.
+This highly up-to-date paper addresses the MOT field purely from a Deep Learning perspective. It thoroughly examines the evolution of the TBD paradigm (SORT -> DeepSORT -> Transformer-based) and the modern types of the JDT paradigms (Embedding-based -> Query-based). It especially emphasizes the importance of new evaluation metrics such as **HOTA**, and the accuracy of Transformer-based end-to-end trackers (e.g., TrackFormer). It compares the state-of-the-art (SOTA) methods in terms of speed and accuracy [7].
 
 **Findings of the Paper:**
-This paper continues from where Luo’s paper left off and enables the selection of the most modern and effective tracking algorithm for our project.
+This paper continues from where Luo's paper left off and enables the selection of the most modern and effective tracking algorithm for our project.
 
 * **TBD Paradigms Remain Strong:** The study shows that the TBD approach is not outdated; on the contrary, it still achieves state-of-the-art results in both speed and accuracy with new algorithms such as **ByteTrack** and **BoT-SORT**. Consequently, the **ByteTrack** algorithm was chosen.
 * **Speed–Accuracy Balance:** Although Transformer-based trackers offer the highest accuracy, they are generally too slow for real-time performance. Considering the speed requirements of our project, these models are not a practical solution.
-* **Identity Consistency Is Critical:** The paper reveals that metrics such as **IDF1** and **HOTA** are more meaningful than MOTA for the project’s goal of assigning “persistent digital identities.” In particular, minimizing the number of **Identity Switches (ID Switch)** is critical.
+* **Identity Consistency Is Critical:** The paper reveals that metrics such as **IDF1** and **HOTA** are more meaningful than MOTA for the project's goal of assigning "persistent digital identities." In particular, minimizing the number of **Identity Switches (ID Switch)** is critical.
