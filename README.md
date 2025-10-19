@@ -106,7 +106,7 @@ YOLO-Based-Student-Detection-and-Tracking/
 
 Here's a sample output showing the tracking system in action:
 
-![Demo GIF](docs/demo.gif)
+![Demo GIF](data/output/demo.gif)
 
 *Real-time student detection and tracking with bounding boxes, unique IDs, and trajectory visualization.*
 
